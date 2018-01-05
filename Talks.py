@@ -14,16 +14,16 @@ class Talks:
         self.title = title
         self.duration = duration
 
-    def create_talk(title, duration):
+    def create_talk(self):
         ##Pq tenho que colocar Talks.funcao?!?
-        if Talks.check_title_contains_numbers(title) > 0:
+        if Talks.check_title_contains_numbers(self.title) > 0:
             raise ValueError
         else:
-            return {'title': title, 'time_of_talk': Talks.get_a_time_to_talk(duration)}
+            return {'title': self.title, 'time_of_talk': Talks.get_a_time_to_talk(self.duration)}
 
-    def get_a_time_to_talk(duration):
+    def get_a_time_to_talk(time):
         actual_time = datetime.now()
-        time_of_talk = actual_time - timedelta(minutes=duration)
+        time_of_talk = actual_time - timedelta(minutes=time)
         return time_of_talk.strftime("%I:%M%p") , time_of_talk
 
     def check_title_contains_numbers(title):
