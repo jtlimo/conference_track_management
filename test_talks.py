@@ -9,11 +9,12 @@ class TestTalkValidations(object):
 
         talk = Talks(track_title, time).create_talk()
 
-        new_time = talk['time_of_talk'][1] - timedelta(minutes=time)
+        print(talk)
+        new_time = talk['time_of_talk']['timedelta'] - timedelta(minutes=time)
 
         expected_time = new_time + timedelta(minutes=time)
 
-        assert talk['time_of_talk'][1], expected_time
+        assert talk['time_of_talk']['timedelta'], expected_time
 
     #input Writing Fast Tests Against Enterprise Rails 60min
     #output 09:00AM Writing Fast Tests Against Enterprise Rails 60min
