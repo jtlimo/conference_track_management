@@ -3,6 +3,7 @@ from track import Track, NoEnoughtSpace
 from talk import Talk
 from datetime import datetime
 
+
 class TestTrackSchedule:
 
     def test_when_a_talk_is_added_in_an_empty_track(self):
