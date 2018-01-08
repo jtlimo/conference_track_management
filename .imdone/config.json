@@ -3,50 +3,26 @@
     "^(node_modules|bower_components|\\.imdone|target|build|dist|logs|flow-typed)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
-<<<<<<< HEAD
-  "keepEmptyPriority": false,
-  "code": {
-    "include_lists": [
-      "TODO",
-      "DOING",
-      "DONE",
-      "PLANNING",
-      "FIXME",
-      "ARCHIVE",
-=======
   "keepEmptyPriority": true,
   "code": {
     "include_lists": [
       "TODO",
       "FIXME",
->>>>>>> f931dc50558ea590041b565bea4f1e3fed2ea85d
       "HACK",
       "CHANGED",
       "XXX",
       "IDEA",
       "NOTE",
-<<<<<<< HEAD
       "REVIEW",
-      "TODO",
-      "DOING"
+      "TODO"
     ]
   },
   "lists": [
     {
       "name": "TODO",
       "hidden": false
-    },
-    {
-      "name": "DOING",
-      "hidden": false
     }
   ],
-=======
-      "REVIEW"
-    ]
-  },
-  "lists": [],
->>>>>>> f931dc50558ea590041b565bea4f1e3fed2ea85d
   "marked": {
     "gfm": true,
     "tables": true,
@@ -54,13 +30,10 @@
     "pedantic": false,
     "smartLists": true,
     "langPrefix": "language-"
-<<<<<<< HEAD
-=======
   },
   "sync": {
     "id": "5a53eaf0952bde50cb735be2",
     "name": "jtlimo/conference_track_management",
     "useImdoneioForPriority": true
->>>>>>> f931dc50558ea590041b565bea4f1e3fed2ea85d
   }
 }
