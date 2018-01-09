@@ -33,7 +33,7 @@ class Track:
         scheduled = ScheduledTalk(talk, self.next_date)
         self.scheduled_talks.append(scheduled)
         self.next_date = self.next_date + timedelta(minutes=talk.duration)
-        # TODO: Criar um método que valida os deadline e a parte do almoço
+        # TODO: Criar um método que valida os deadline e a parte do almoço id:0 gh:2
         if self.next_date > self.deadline_talk:
             raise NoEnoughtSpace
         elif self.next_date > self.lunch_hour and self.next_date <= self.end_lunch_hour:
