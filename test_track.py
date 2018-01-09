@@ -1,5 +1,6 @@
 import pytest
-from track import Track, NoEnoughtSpace
+import pdb
+from track import Track, NoEnoughtSpace, UnavailableHourForTalk
 from talk import Talk
 from datetime import datetime
 
@@ -48,4 +49,14 @@ class TestTrackSchedule:
         talk2 = Talk("bostona veia", 30)
 
         with pytest.raises(NoEnoughtSpace):
+            track.schedule_talk(talk2)
+
+    def test_that_i_cant_add_a_talk_on_the_lunch_hour(self):
+        track = Track(datetime.now())
+        talk = Talk("Talk 1", 3 * 60)
+        track.schedule_talk(talk)
+
+        talk2 = Talk("Talk on the lunch hour", 30)
+
+        with pytest.raises(UnavailableHourForTalk):
             track.schedule_talk(talk2)
