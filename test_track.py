@@ -66,7 +66,6 @@ class TestTrackSchedule:
         assert scheduled.date.second == 0
         assert scheduled.date.microsecond == 0
 
-    @pytest.mark.full_track
     def test_track_is_completed_correctly(self):
         track = Track(datetime.now())
         talk = Talk("first talk", 3 * 60)
