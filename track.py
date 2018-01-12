@@ -37,22 +37,22 @@ class Track:
         scheduled = ScheduledTalk(talk, self.next_date)
         self.scheduled_talks.append(scheduled)
         self.next_date = self.next_date + timedelta(minutes=talk.duration)
-        self.can_schedule(scheduled)
+        self.__can_schedule(scheduled)
 
     def get_scheduled_talks(self):
         return self.scheduled_talks
 
-    def can_schedule(self, talk):
+    def __can_schedule(self, talk):
         if talk.date >= self.deadline_talk:
             raise NoEnoughtSpace
-        elif self.is_lunch_hour():
-            self.reeschedule_talk_after_lunch()
+        elif self.__is_lunch_hour():
+            self.__reeschedule_talk_after_lunch()
 
-    def is_lunch_hour(self):
+    def __is_lunch_hour(self):
         return (self.next_date >= self.lunch_hour and
                 self.next_date <= self.end_lunch)
 
-    def reeschedule_talk_after_lunch(self):
+    def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
             hour=self.end_lunch.hour,
             minute=self.end_lunch.minute,
