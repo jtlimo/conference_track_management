@@ -72,7 +72,6 @@ class TestTrackSchedule:
         track.schedule_talk(talk)
 
         talk2 = Talk("Talk 2", 4 * 60)
+        track.schedule_talk(talk2)
 
-        scheduled = track.schedule_talk(talk2)
-
-        assert scheduled[1] is True
+        assert track.is_valid() is True

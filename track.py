@@ -28,7 +28,7 @@ class Track:
     def is_valid(self):
         self.filtered_hours = []
 
-        for talk in self.scheduled_talks:
+        for talk in self.get_scheduled_talks():
             self.filtered_hours.append(talk.date <= self.deadline_talk)
 
         return all(self.filtered_hours)
@@ -37,11 +37,13 @@ class Track:
         scheduled = ScheduledTalk(talk, self.next_date)
         self.scheduled_talks.append(scheduled)
         self.next_date = self.next_date + timedelta(minutes=talk.duration)
-        self.check_if_is_valid_hour()
-        return self.scheduled_talks, self.is_valid()
+        self.can_schedule(scheduled)
 
-    def check_if_is_valid_hour(self):
-        if self.next_date > self.deadline_talk:
+    def get_scheduled_talks(self):
+        return self.scheduled_talks
+
+    def can_schedule(self, talk):
+        if talk.date >= self.deadline_talk:
             raise NoEnoughtSpace
         elif self.is_lunch_hour():
             self.reeschedule_talk_after_lunch()
