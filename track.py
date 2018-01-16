@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
+from talk import Talk
 
 class ScheduledTalk:
     def __init__(self, talk, date):
         self.talk = talk
         self.date = date
-
 
 class NoEnoughtSpace(Exception):
     pass
@@ -24,6 +23,8 @@ class Track:
                                        microsecond=0)
         self.end_lunch = date.replace(hour=13, minute=0, second=0,
                                       microsecond=0)
+        self.__schedule_lunch_hour()
+        self.__schedule_network_event()
 
     def is_valid(self):
         self.filtered_hours = []
@@ -38,6 +39,14 @@ class Track:
         self.scheduled_talks.append(scheduled)
         self.next_date = self.next_date + timedelta(minutes=talk.duration)
         self.__can_schedule(scheduled)
+
+    def __schedule_lunch_hour(self):
+        scheduled = ScheduledTalk(Talk('Lunch', 60), self.lunch_hour)
+        self.scheduled_talks.append(scheduled)
+
+    def __schedule_network_event(self):
+        scheduled = ScheduledTalk(Talk('Network', 60), self.deadline_talk)
+        self.scheduled_talks.append(scheduled)
 
     def get_scheduled_talks(self):
         return self.scheduled_talks
