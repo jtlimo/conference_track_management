@@ -4,6 +4,6 @@
   "test_talks.py::TestTalkValidations::()::test_isminutetalk": true,
   "test_talks.py::TestTalkValidations::()::test_title_talk": true,
   "test_track.py::TestTrackSchedule::()::test_that_i_cant_add_a_talk_on_the_lunch_hour": true,
-  "test_track_management.py::TestTrackManagement::()::test_when_need_to_create_a_new_track": true,
-  "test_track_management.py::TestTrackManagement::()::test_with_a_full_track_returning_blocked_lunch": true
+  "test_track_management.py::TestTrackManagement::()::test_with_a_full_track_returning_blocked_lunch": true,
+  "test_track_management.py::TestTrackManagement::()::test_with_a_full_track_returning_blocked_lunch_and_network": true
 }

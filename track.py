@@ -28,7 +28,6 @@ class Track:
 
     def is_valid(self):
         self.filtered_hours = []
-
         for talk in self.get_scheduled_talks():
             self.filtered_hours.append(talk.date <= self.deadline_talk)
 
