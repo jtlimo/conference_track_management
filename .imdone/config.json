@@ -14,12 +14,17 @@
       "IDEA",
       "NOTE",
       "REVIEW",
-      "TODO"
+      "TODO",
+      "FIXME"
     ]
   },
   "lists": [
     {
       "name": "TODO",
+      "hidden": false
+    },
+    {
+      "name": "FIXME",
       "hidden": false
     }
   ],
