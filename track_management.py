@@ -13,23 +13,23 @@ class TrackManagement:
 
     def generate_tracks_to_talks(self):
         track = Track(datetime.now())
+        tracks = [track]
         for talk in self.talks:
             try:
                 track.schedule_talk(talk)
             except NoEnoughtSpace:
                 new_track = Track(datetime.now())
+                tracks.append(new_track)
                 new_track.schedule_talk(track.get_scheduled_talks().pop().talk)
 
-        #FIXME: I broked this! Fuck!!! UnboundLocalError: local variable
-        # 'new_track' referenced before assignment
-        if track.is_valid() and new_track.is_valid():
-            return self.__formatted_track(track, new_track)
+        return self.__formatted_track(tracks)
 
 
     #FIXME: confusing code, loop inside other loop, its weird!
-    def __formatted_track(self, *tracks):
+    def __formatted_track(self, tracks):
         ids = []
-        for index, track in enumerate(tracks):
+        index = 0
+        for track in tracks:
             ids = str(uuid4())
             self.tracks.append({'id': ids, 'talks': []})
             for scheduled in track.get_scheduled_talks():
@@ -40,4 +40,6 @@ class TrackManagement:
                                      scheduled.talk.duration,
                                      'end_of_talk':
                                      end_talk.strftime('%I:%M%p')})
+            index += 1
+
         return self.tracks

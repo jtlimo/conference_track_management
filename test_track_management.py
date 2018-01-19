@@ -7,25 +7,20 @@ from datetime import datetime
 
 class TestTrackManagement:
 
+    @pytest.mark.only
     def test_with_a_full_track_returning_blocked_lunch_and_network(self):
-        count = 0
         talk = Talk('Madokita', 3*60)
         talk2 = Talk('Tutucão', 4*60)
 
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
 
-        for track in tracks:
-            if talk.title is track['title']:
-                count += 1
-            elif talk2.title is track['title']:
-                count += 1
-            elif 'Lunch' is track['title']:
-                count += 1
-            elif 'Network' is track['title']:
-                count += 1
+        talk_titles = [talk['title'] for talk in tracks[0]['talks']]
 
-        assert count is 4
+        assert talk.title in talk_titles
+        assert talk2.title in talk_titles
+        assert 'Network' in talk_titles
+        assert 'Lunch' in talk_titles
 
 
     def test_when_need_to_create_a_new_track(self):

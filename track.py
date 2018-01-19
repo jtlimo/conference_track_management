@@ -8,6 +8,7 @@ class ScheduledTalk:
         self.talk = talk
         self.date = date
 
+
 class NoEnoughtSpace(Exception):
     pass
 
