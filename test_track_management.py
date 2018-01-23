@@ -7,7 +7,7 @@ from datetime import datetime
 
 class TestTrackManagement:
 
-    @pytest.mark.only
+    #@pytest.mark.only
     def test_with_a_full_track_returning_blocked_lunch_and_network(self):
         talk = Talk('Madokita', 3*60)
         talk2 = Talk('Tutucão', 4*60)
@@ -15,14 +15,14 @@ class TestTrackManagement:
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
 
-        talk_titles = [talk['title'] for talk in tracks[0]['talks']]
+        talk_titles = self.__get_title_talks(tracks)
 
-        assert talk.title in talk_titles
-        assert talk2.title in talk_titles
-        assert 'Network' in talk_titles
-        assert 'Lunch' in talk_titles
+        assert talk.title in talk_titles[0]
+        assert talk2.title in talk_titles[0]
+        assert 'Network' in talk_titles[0]
+        assert 'Lunch' in talk_titles[0]
 
-
+    @pytest.mark.only
     def test_when_need_to_create_a_new_track(self):
         talk = Talk('Madokita', 8*60)
         talk2 = Talk('Tutucão', 1*60)
@@ -30,13 +30,17 @@ class TestTrackManagement:
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
 
-        for track in tracks:
-            assert track['talks'][2]['title'] is talk2.title or talk.title
-            assert track['talks'][2]['duration_in_minutes'] is talk2.duration or talk.duration
-            assert self.__is_empty(track) is False
+        talk_titles = self.__get_title_talks(tracks)
 
-    def __is_empty(self, seq):
-        if not seq:
-            return True
-        if seq:
-            return False
+        assert talk.title in talk_titles[0]
+        assert talk2.title in talk_titles[1]
+        assert 'Network' in talk_titles[0] and talk_titles[1]
+        assert 'Lunch' in talk_titles[0] and talk_titles[1]
+
+    def __get_title_talks(self, talks):
+        talk_titles = []
+
+        for talk in talks:
+            talk_titles.append([titles['title'] for titles in talk[0]['talks']])
+
+        return talk_titles
