@@ -8,7 +8,6 @@ from uuid import uuid4
 class TrackManagement:
 
     def __init__(self, talks):
-        self.tracks = []
         self.talks = talks
 
     def generate_tracks_to_talks(self):
@@ -29,12 +28,15 @@ class TrackManagement:
     def __formatted_track(self, tracks):
         ids = []
         index = 0
+        index2 = 0
+        all_tracks = [[{'id': str(uuid4()), 'talks': []}]]
         for track in tracks:
-            ids = str(uuid4())
-            self.tracks.append({'id': ids, 'talks': []})
+            if index > 0:
+                all_tracks.append([{'id': str(uuid4()), 'talks': []}])
+
             for scheduled in track.get_scheduled_talks():
                 end_talk = scheduled.date + timedelta(minutes=scheduled.talk.duration)
-                self.tracks[index]['talks'].append({'hour': scheduled.date.strftime('%I:%M%p'),
+                all_tracks[index][index2]['talks'].append({'hour': scheduled.date.strftime('%I:%M%p'),
                                      'title': scheduled.talk.title,
                                      'duration_in_minutes':
                                      scheduled.talk.duration,
@@ -42,4 +44,4 @@ class TrackManagement:
                                      end_talk.strftime('%I:%M%p')})
             index += 1
 
-        return self.tracks
+        return all_tracks
