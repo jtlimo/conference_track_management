@@ -21,4 +21,9 @@ class TrackManagement:
                 tracks.append(new_track)
                 new_track.schedule_talk(track.get_scheduled_talks().pop().talk)
 
+        self.schedule_network_for_all_tracks(tracks)
         return tracks
+
+    def schedule_network_for_all_tracks(self, tracks):
+        for track in tracks:
+            track.schedule_network_event(track.get_scheduled_talks()[-1].talk)
