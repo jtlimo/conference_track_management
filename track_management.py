@@ -24,7 +24,7 @@ class TrackManagement:
         return self.__formatted_track(tracks)
 
 
-    #FIXME: confusing code, loop inside other loop, its weird!
+    #FIXME: confusing code, loop inside other loop, its weird! id:1 gh:4
     def __formatted_track(self, tracks):
         ids = []
         index = 0
