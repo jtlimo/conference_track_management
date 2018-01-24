@@ -51,7 +51,7 @@ class TestTrackManagement:
             assert 'Network' in title
             assert '04:00PM' == hour[-1]
 
-    def __get_title_talks(self, talks):
+    def __get_title_talks(self, tracks):
         talk_titles = []
 
         for track in tracks:
