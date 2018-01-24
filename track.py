@@ -1,21 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from talk import Talk
-
-class ScheduledTalk:
-    def __init__(self, talk, date):
-        self.talk = talk
-        self.date = date
-
-    def __str__(self):
-        return self.get_hour() + " " + self.talk
-
-    def get_title(self):
-        return self.talk.title
-
-    def get_hour(self):
-        return self.date.strftime('%I:%M%p')
+from talk import Talk, ScheduledTalk
 
 
 class NoEnoughtSpace(Exception):
