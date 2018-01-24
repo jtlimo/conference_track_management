@@ -26,4 +26,4 @@ class TrackManagement:
 
     def schedule_network_for_all_tracks(self, tracks):
         for track in tracks:
-            track.schedule_network_event(track.get_scheduled_talks()[-1].talk)
+            track.schedule_network_event()
