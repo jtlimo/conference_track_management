@@ -35,7 +35,23 @@ class TestTrackManagement:
         assert 'Network' in talk_titles[0] and talk_titles[1]
         assert 'Lunch' in talk_titles[0] and talk_titles[1]
 
-    def __get_title_talks(self, tracks):
+    def test_when_schedule_network_event_after_a_small_talk(self):
+        talk = Talk('Madokita', 3*60)
+        talk2 = Talk('Tutucão', 1*60)
+
+        tracks = TrackManagement([talk, talk2])
+        tracks = tracks.generate_tracks_to_talks()
+
+        talk_hours = self.__get_hour_talks(tracks)
+        talk_titles = self.__get_title_talks(tracks)
+
+        for title, hour in zip(talk_titles, talk_hours):
+            assert talk.title in title
+            assert talk2.title in title
+            assert 'Network' in title
+            assert '04:00PM' == hour[-1]
+
+    def __get_title_talks(self, talks):
         talk_titles = []
 
         for track in tracks:
