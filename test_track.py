@@ -11,8 +11,8 @@ class TestTrackSchedule:
         talk = Talk("qualquer bosta", 60)
         track.schedule_talk(talk)
 
-        # I had previous talks: lunch and network event
-        assert len(track.scheduled_talks) == 3
+        # I had previous talks scheduled in __init__: lunch
+        assert len(track.scheduled_talks) == 2
 
 
     def test_talk_is_added_correctly(self):
@@ -20,7 +20,7 @@ class TestTrackSchedule:
         talk = Talk("qualquer bosta denovo", 60)
         track.schedule_talk(talk)
 
-        scheduled = track.scheduled_talks[2]
+        scheduled = track.scheduled_talks[1]
 
         assert scheduled.talk == talk
         assert scheduled.date.hour == 9
@@ -35,7 +35,7 @@ class TestTrackSchedule:
 
         talk2 = Talk("bostona veia", 30)
         track.schedule_talk(talk2)
-        scheduled = track.scheduled_talks[3]
+        scheduled = track.scheduled_talks[2]
 
         assert scheduled.talk == talk2
         assert scheduled.date.hour == 9
@@ -61,7 +61,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk on the lunch hour", 30)
 
         track.schedule_talk(talk2)
-        scheduled = track.scheduled_talks[3]
+        scheduled = track.scheduled_talks[2]
 
         assert scheduled.talk == talk2
         assert scheduled.date.hour == 13
