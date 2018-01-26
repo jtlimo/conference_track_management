@@ -14,7 +14,6 @@ class TestTrackSchedule:
         # I had previous talks scheduled in __init__: lunch
         assert len(track.scheduled_talks) == 2
 
-
     def test_talk_is_added_correctly(self):
         track = Track(datetime.now())
         talk = Talk("qualquer bosta denovo", 60)
