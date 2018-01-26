@@ -9,13 +9,16 @@ class ScheduledTalk:
         self.date = date
 
     def __str__(self):
-        return self.get_hour() + " " + self.talk
+        return self.get_hour() + " " + str(self.talk)
 
     def get_title(self):
         return self.talk.title
 
     def get_hour(self):
         return self.date.strftime('%I:%M%p')
+
+    def get_talk(self):
+        return self.talk
 
 
 class Talk:
@@ -25,4 +28,4 @@ class Talk:
         self.duration = duration
 
     def __str__(self):
-        return self.title + " " + self.duration
+        return self.title + " " + str(self.duration)
