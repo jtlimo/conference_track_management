@@ -10,6 +10,7 @@ class TrackManagement:
     def __init__(self, talks):
         self.talks = talks
 
+    # TODO: Generate 1...n tracks
     def generate_tracks_to_talks(self):
         track = Track(datetime.now())
         tracks = [track]
@@ -19,6 +20,7 @@ class TrackManagement:
             except NoEnoughtSpace:
                 new_track = Track(datetime.now())
                 tracks.append(new_track)
+                # FIXME: Move changes to list of talks to Talk class
                 new_track.schedule_talk(track.get_scheduled_talks().pop().talk)
 
         self.schedule_network_for_all_tracks(tracks)
