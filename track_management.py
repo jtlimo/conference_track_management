@@ -21,7 +21,7 @@ class TrackManagement:
                 new_track = Track(datetime.now())
                 tracks.append(new_track)
                 # FIXME: Move changes to list of talks to Talk class
-                new_track.schedule_talk(track.get_scheduled_talks().pop().talk)
+                new_track.schedule_talk(talk)
 
         self.schedule_network_for_all_tracks(tracks)
         return tracks
