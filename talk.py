@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+
 class ScheduledTalk:
-    
+
     def __init__(self, talk, date):
         self.talk = talk
         self.date = date
@@ -15,6 +16,7 @@ class ScheduledTalk:
 
     def get_hour(self):
         return self.date.strftime('%I:%M%p')
+
 
 class Talk:
 
