@@ -20,9 +20,8 @@ class Track:
         self.end_lunch = date.replace(hour=13, minute=0, second=0,
                                       microsecond=0)
         self.first_hour_network = date.replace(hour=16, minute=0, second=0,
-                                         microsecond=0)
+                                               microsecond=0)
         self.__schedule_lunch_hour()
-
 
     def is_valid(self):
         self.filtered_hours = []
@@ -43,7 +42,8 @@ class Track:
 
     def schedule_network_event(self):
         self.__is_a_valid_hour_for_network_event()
-        self.next_date = self.next_date + timedelta(minutes=self.next_date.minute)
+        self.next_date = (self.next_date +
+                          timedelta(minutes=self.next_date.minute))
         scheduled = ScheduledTalk(Talk('Network', 60), self.next_date)
         self.scheduled_talks.append(scheduled)
 

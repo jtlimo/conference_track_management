@@ -8,8 +8,8 @@ from datetime import datetime
 class TestTrackManagement:
 
     def test_with_a_full_track_returning_blocked_lunch_and_network(self):
-        talk = Talk('Madokita', 3*60)
-        talk2 = Talk('Tutucão', 4*60)
+        talk = Talk('Madokita', 3 * 60)
+        talk2 = Talk('Tutucão', 4 * 60)
 
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
@@ -22,8 +22,8 @@ class TestTrackManagement:
         assert 'Lunch' in talk_titles[0]
 
     def test_when_need_to_create_a_new_track(self):
-        talk = Talk('Madokita', 8*60)
-        talk2 = Talk('Tutucão', 1*60)
+        talk = Talk('Madokita', 8 * 60)
+        talk2 = Talk('Tutucão', 1 * 60)
 
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
@@ -36,8 +36,8 @@ class TestTrackManagement:
         assert 'Lunch' in talk_titles[0] and talk_titles[1]
 
     def test_when_schedule_network_event_after_a_small_talk(self):
-        talk = Talk('Madokita', 3*60)
-        talk2 = Talk('Tutucão', 1*60)
+        talk = Talk('Madokita', 3 * 60)
+        talk2 = Talk('Tutucão', 1 * 60)
 
         tracks = TrackManagement([talk, talk2])
         tracks = tracks.generate_tracks_to_talks()
@@ -55,15 +55,16 @@ class TestTrackManagement:
         talk_titles = []
 
         for track in tracks:
-            talk_titles.append([talk.get_title() for talk in track.get_scheduled_talks()])
+            talk_titles.append([talk.get_title() for talk in
+                                track.get_scheduled_talks()])
 
         return talk_titles
-
 
     def __get_hour_talks(self, tracks):
         talk_hours = []
 
         for track in tracks:
-            talk_hours.append([talk.get_hour() for talk in track.get_scheduled_talks()])
+            talk_hours.append([talk.get_hour() for talk in
+                               track.get_scheduled_talks()])
 
         return talk_hours
