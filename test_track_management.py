@@ -51,6 +51,26 @@ class TestTrackManagement:
             assert 'Network' in title
             assert '04:00PM' == hour[-1]
 
+    @pytest.mark.only
+    def test_when_need_to_create_more_than_two_tracks(self):
+        talk = Talk('Madokita', 3 * 60)
+        talk2 = Talk('Tutucão', 2 * 60)
+        talk3 = Talk('Luna', 2 * 60)
+        talk4 = Talk('Pink', 3 * 60)
+        talk5 = Talk('Nick', 2 * 60)
+        talk6 = Talk('Greg', 2 * 60)
+        talk7 = Talk('Paola', 3 * 60)
+        talk8 = Talk('Miauzin', 2 * 60)
+        talk9 = Talk('Popinha', 2 * 60)
+
+        tracks = TrackManagement([talk, talk2, talk3, talk4, talk5, talk6,
+                                  talk7, talk8, talk9])
+        tracks.generate_tracks_to_talks()
+
+        # import pdb; pdb.set_trace()
+
+        assert 0
+
     def __get_title_talks(self, tracks):
         talk_titles = []
 
