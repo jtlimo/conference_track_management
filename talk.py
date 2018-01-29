@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 
 
 class ScheduledTalk:
@@ -17,9 +18,18 @@ class ScheduledTalk:
     def get_hour(self):
         return self.date.strftime('%I:%M%p')
 
+    def get_unformatted_hour(self):
+        return self.date
+
     def get_talk(self):
         return self.talk
 
+    def get_end_hour(self):
+        return (self.get_unformatted_hour() +
+                timedelta(minutes=self.get_talk().duration))
+
+    def get_formatted_end_hour(self):
+        return self.get_end_hour().strftime('%I:%M%p')
 
 class Talk:
 
