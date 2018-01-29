@@ -31,12 +31,15 @@ class Track:
         return all(self.filtered_hours)
 
     def schedule_talk(self, talk):
+        # import pdb; pdb.set_trace()
         scheduled = ScheduledTalk(talk, self.next_date)
         self.scheduled_talks.append(scheduled)
         self.next_date = self.next_date + timedelta(minutes=talk.duration)
-        if self.__cant_schedule(scheduled):
+        if self.__is_lunch_hour(scheduled):
+            self.__reeschedule_talk_after_lunch()
+        elif self.__cant_schedule(scheduled):
             self.__reset_hour()
-            self.__remove_last_talk()
+            self.scheduled_talks = self.__remove_last_talk()[1]
             raise NoEnoughtSpace
 
     def __reset_hour(self, date=datetime.now()):
@@ -45,10 +48,11 @@ class Track:
         return self.next_date
 
     def __remove_last_talk(self):
+        # import pdb; pdb.set_trace()
         next_scheduled = self.scheduled_talks.pop()
-        new_scheduled_test = self.scheduled_talks.copy()
+        scheduled_talks_shadow = self.scheduled_talks.copy()
         self.scheduled_talks.clear()
-        return next_scheduled, new_scheduled_test
+        return next_scheduled, scheduled_talks_shadow
 
     def __schedule_lunch_hour(self):
         scheduled = ScheduledTalk(Talk('Lunch', 60), self.lunch_hour)
@@ -64,19 +68,22 @@ class Track:
     def __is_a_valid_hour_for_network_event(self):
         if self.next_date <= self.first_hour_network:
             self.next_date = self.first_hour_network
+        elif self.next_date >= self.deadline_talk:
+            self.next_date = self.deadline_talk
 
     def get_scheduled_talks(self):
         return self.scheduled_talks
 
     def __cant_schedule(self, talk):
-        return talk.date >= self.deadline_talk
-        # raise NoEnoughtSpace
-        # elif self.__is_lunch_hour():
-        #     self.__reeschedule_talk_after_lunch()
+        return (talk.get_unformatted_hour() >= self.deadline_talk and
+                talk.get_end_hour() >= self.deadline_talk)
 
-    def __is_lunch_hour(self):
+    def __is_lunch_hour(self, talk):
+        # import pdb; pdb.set_trace()
         return (self.next_date >= self.lunch_hour and
-                self.next_date <= self.end_lunch)
+                self.next_date <= self.end_lunch or
+                talk.get_end_hour() > self.lunch_hour and
+                talk.get_end_hour() <= self.end_lunch)
 
     def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
