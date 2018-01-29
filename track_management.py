@@ -18,12 +18,20 @@ class TrackManagement:
             try:
                 track.schedule_talk(talk)
             except NoEnoughtSpace:
+                print('----------------------------------')
+                import pdb; pdb.set_trace()
                 new_track = Track(datetime.now())
                 tracks.append(new_track)
                 # FIXME: Move changes to list of talks to Talk class
                 new_track.schedule_talk(talk)
 
         self.schedule_network_for_all_tracks(tracks)
+
+        for index, track in enumerate(tracks):
+            print('Track:', index)
+            for talk in track.get_scheduled_talks():
+                print(talk.get_title(), talk.get_hour(),
+                      talk.get_formatted_end_hour())
         return tracks
 
     def schedule_network_for_all_tracks(self, tracks):
