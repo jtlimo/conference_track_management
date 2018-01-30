@@ -11,15 +11,14 @@ class TestTrackSchedule:
         talk = Talk("qualquer bosta", 60)
         track.schedule_talk(talk)
 
-        # I had previous talks scheduled in __init__: lunch
-        assert len(track.scheduled_talks) == 2
+        assert len(track.get_scheduled_talks()) == 1
 
     def test_talk_is_added_correctly(self):
         track = Track(datetime.now())
         talk = Talk("qualquer bosta denovo", 60)
         track.schedule_talk(talk)
 
-        scheduled = track.scheduled_talks[1]
+        scheduled = track.get_scheduled_talks()[0]
 
         assert scheduled.talk == talk
         assert scheduled.date.hour == 9
@@ -34,7 +33,7 @@ class TestTrackSchedule:
 
         talk2 = Talk("bostona veia", 30)
         track.schedule_talk(talk2)
-        scheduled = track.scheduled_talks[2]
+        scheduled = track.get_scheduled_talks()[1]
 
         assert scheduled.talk == talk2
         assert scheduled.date.hour == 9
@@ -64,7 +63,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk on the lunch hour", 30)
 
         track.schedule_talk(talk2)
-        scheduled = track.scheduled_talks[2]
+        scheduled = track.get_scheduled_talks()[1]
 
         assert scheduled.talk == talk2
         assert scheduled.date.hour == 13
@@ -81,6 +80,27 @@ class TestTrackSchedule:
         track.schedule_talk(talk2)
 
         assert track.is_valid() is True
+
+    def test_track_is_completed_correctly_when_network_starts_at_16h(self):
+        track = Track(datetime.now())
+        talk = Talk("first talk", 3 * 60)
+        track.schedule_talk(talk)
+
+        talk2 = Talk("Talk 2", 3 * 60)
+        track.schedule_talk(talk2)
+
+        assert track.is_valid() is True
+
+    @pytest.mark.only
+    def test_track_is_not_valid(self):
+        track = Track(datetime.now())
+        talk = Talk("first talk", 3 * 60)
+        track.schedule_talk(talk)
+
+        talk2 = Talk("Talk 2", 2 * 60)
+        track.schedule_talk(talk2)
+
+        assert track.is_valid() is False
 
     def test_when_added_a_talk_that_exceed_the_lunch_time_it_raises_an_exception(self):
         track = Track(datetime.now())
