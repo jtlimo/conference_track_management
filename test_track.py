@@ -42,15 +42,19 @@ class TestTrackSchedule:
         assert scheduled.date.second == 0
         assert scheduled.date.microsecond == 0
 
+    @pytest.mark.oi
     def test_that_i_cant_add_a_talk_when_track_is_full(self):
         track = Track(datetime.now())
-        talk = Talk("Really Large Talk", 8 * 60)
+        talk = Talk("Really Large Talk", 3 * 60)
         track.schedule_talk(talk)
+        talk2 = Talk("Really Large Talk", 4 * 60)
+        track.schedule_talk(talk2)
 
-        talk2 = Talk("bostona veia", 30)
+        talk3 = Talk("bostona veia", 30)
+
 
         with pytest.raises(NoEnoughtSpace):
-            track.schedule_talk(talk2)
+            track.schedule_talk(talk3)
 
     def test_that_i_reeschedule_a_talk_when_is_the_lunch_hour(self):
         track = Track(datetime.now())
@@ -77,3 +81,13 @@ class TestTrackSchedule:
         track.schedule_talk(talk2)
 
         assert track.is_valid() is True
+
+    def test_when_added_a_talk_that_exceed_the_lunch_time_it_raises_an_exception(self):
+        track = Track(datetime.now())
+        talk = Talk("Big KeyNote", 170)
+        track.schedule_talk(talk)
+
+        talk2 = Talk("Average Talk", 30)
+
+        with pytest.raises(NoEnoughtSpace):
+            track.schedule_talk(talk2)
