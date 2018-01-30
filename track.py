@@ -22,14 +22,9 @@ class Track:
                                       microsecond=0)
         self.first_hour_network = date.replace(hour=16, minute=0, second=0,
                                                microsecond=0)
-        self.__schedule_lunch_hour()
 
     def is_valid(self):
-        self.filtered_hours = []
-        for talk in self.get_scheduled_talks():
-            self.filtered_hours.append(talk.date <= self.deadline_talk)
-
-        return all(self.filtered_hours)
+        return self.next_date >= self.first_hour_network
 
     def schedule_talk(self, talk):
         if not self.__can_schedule(talk):
@@ -41,7 +36,7 @@ class Track:
         else:
             self.next_date = scheduled.get_end_hour()
 
-    def __schedule_lunch_hour(self):
+    def schedule_lunch_hour(self):
         scheduled = ScheduledTalk(Talk('Lunch', 60), self.lunch_hour)
         self.scheduled_talks.append(scheduled)
 
@@ -62,12 +57,17 @@ class Track:
         return self.scheduled_talks
 
     def __can_schedule(self, talk):
-        talk_end = self.next_date + timedelta(minutes=talk.duration)
-        if talk_end > self.lunch_hour and self.next_date < self.lunch_hour:
-            return False
-        if talk_end > self.deadline_talk:
-            return False
-        return True
+        try:
+            talk_end = self.next_date + timedelta(minutes=talk.duration)
+            if talk_end > self.lunch_hour and self.next_date < self.lunch_hour:
+                return False
+            if talk_end > self.deadline_talk:
+                return False
+            return True
+        except:
+            import pdb; pdb.set_trace()
+            raise
+
 
     def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
