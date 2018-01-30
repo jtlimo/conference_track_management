@@ -67,8 +67,6 @@ class TestTrackManagement:
                                   talk7, talk8, talk9])
         tracks.generate_tracks_to_talks()
 
-        # import pdb; pdb.set_trace()
-
         assert 0
 
     def __get_title_talks(self, tracks):
