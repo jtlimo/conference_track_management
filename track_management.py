@@ -19,7 +19,6 @@ class TrackManagement:
                 track.schedule_talk(talk)
             except NoEnoughtSpace:
                 print('----------------------------------')
-                import pdb; pdb.set_trace()
                 new_track = Track(datetime.now())
                 tracks.append(new_track)
                 # FIXME: Move changes to list of talks to Talk class
