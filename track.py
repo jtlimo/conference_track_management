@@ -1,8 +1,35 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
-from talk import Talk, ScheduledTalk
+from talk import Talk
 from copy import copy
+
+
+class Scheduled:
+
+    def __init__(self, title, duration, date):
+        self.date = date
+        self.title = title
+        self.duration = duration
+
+    def __str__(self):
+        return self.get_hour() + " " + self.title + " " + str(self.duration)
+
+    def get_title(self):
+        return self.title
+
+    def get_hour(self):
+        return self.date.strftime('%I:%M%p')
+
+    def get_date(self):
+        return self.date
+
+    def get_end_hour(self):
+        return self.get_date() + \
+                timedelta(minutes=self.duration)
+
+    def get_formatted_end_hour(self):
+        return self.get_end_hour().strftime('%I:%M%p')
 
 
 class NoEnoughtSpace(Exception):
@@ -29,7 +56,7 @@ class Track:
     def schedule_talk(self, talk):
         if not self.__can_schedule(talk):
             raise NoEnoughtSpace
-        scheduled = ScheduledTalk(talk.title, talk.duration, self.next_date)
+        scheduled = Scheduled(talk.title, talk.duration, self.next_date)
         self.scheduled_talks.append(scheduled)
         if scheduled.get_end_hour() == self.lunch_hour:
             self.__reeschedule_talk_after_lunch()
@@ -37,13 +64,13 @@ class Track:
             self.next_date = scheduled.get_end_hour()
 
     def __get_lunch_hour(self):
-        return ScheduledTalk('Lunch', 60, self.lunch_hour)
+        return Scheduled('Lunch', 60, self.lunch_hour)
 
     def __get_network_event(self):
         self.__is_a_valid_hour_for_network_event()
         self.next_date = (self.next_date +
                           timedelta(minutes=self.next_date.minute))
-        return ScheduledTalk('Network', 60, self.next_date)
+        return Scheduled('Network', 60, self.next_date)
 
     def __is_a_valid_hour_for_network_event(self):
         if self.next_date <= self.first_hour_network:
