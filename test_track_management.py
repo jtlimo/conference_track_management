@@ -74,6 +74,6 @@ class TestTrackManagement:
 
         for track in tracks:
             talk_titles.append([talk.get_title() for talk in
-                                track.get_scheduled_talks()])
+                                track.get_timeline()])
 
         return talk_titles
