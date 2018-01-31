@@ -19,11 +19,11 @@ class ScheduledTalk:
     def get_hour(self):
         return self.date.strftime('%I:%M%p')
 
-    def get_unformatted_hour(self):
+    def get_date(self):
         return self.date
 
     def get_end_hour(self):
-        return self.get_unformatted_hour() + \
+        return self.get_date() + \
                 timedelta(minutes=self.duration)
 
     def get_formatted_end_hour(self):
