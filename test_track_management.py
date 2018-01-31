@@ -46,7 +46,6 @@ class TestTrackManagement:
         assert 'Lunch' in talk_titles[0]
         assert 'Lunch' in talk_titles[1]
 
-    @pytest.mark.ai
     def test_safadao(self):
         talks = [
             Talk("Writing Fast Tests Against Enterprise Rails", 60),
