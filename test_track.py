@@ -111,3 +111,36 @@ class TestTrackSchedule:
 
         with pytest.raises(NoEnoughtSpace):
             track.schedule_talk(talk2)
+
+    def test_lunch_and_network_exists_in_track(self):
+        track = Track(datetime.now())
+        talk1 = Talk("Fedoka", 3 * 60)
+        talk2 = Talk("Tutu de Feijão", 4 * 60)
+
+        track.schedule_talk(talk1)
+        track.schedule_talk(talk2)
+
+        timeline_titles = [talk.title for talk in track.get_timeline()]
+
+        assert 'Network' in timeline_titles
+        assert 'Lunch' in timeline_titles
+
+    def test_talks_is_ordered_by_hour(self):
+        date = datetime(2018, 1, 1)
+        track = Track(date)
+        talk1 = Talk("Fedoka", 3 * 60)
+        talk2 = Talk("Tutu de Feijão", 4 * 60)
+
+        track.schedule_talk(talk1)
+        track.schedule_talk(talk2)
+
+        timeline = track.get_timeline()
+
+        assert timeline[0].get_title() == 'Fedoka'
+        assert timeline[0].get_date() == datetime(2018, 1, 1, 9)
+        assert timeline[1].get_title() == 'Lunch'
+        assert timeline[1].get_date() == datetime(2018, 1, 1, 12)
+        assert timeline[2].get_title() == 'Tutu de Feijão'
+        assert timeline[2].get_date() == datetime(2018, 1, 1, 13)
+        assert timeline[3].get_title() == 'Network'
+        assert timeline[3].get_date() == datetime(2018, 1, 1, 17)

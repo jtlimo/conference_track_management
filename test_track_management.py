@@ -37,14 +37,12 @@ class TestTrackManagement:
 
         talk_titles = self.__get_title_talks(tracks)
 
-        assert talk.title in talk_titles[1]
-        assert talk2.title in talk_titles[0]
-        assert talk3.title in talk_titles[0]
-        assert talk4.title in talk_titles[1]
-        assert 'Network' in talk_titles[0]
-        assert 'Network' in talk_titles[1]
-        assert 'Lunch' in talk_titles[0]
-        assert 'Lunch' in talk_titles[1]
+        assert talk.title in talk_titles[0] or talk.title in talk_titles[1]
+        assert talk2.title in talk_titles[0] or talk2.title in talk_titles[1]
+        assert talk3.title in talk_titles[0] or talk3.title in talk_titles[1]
+        assert talk4.title in talk_titles[0] or talk4.title in talk_titles[1]
+        assert 'Network' in talk_titles[0] and 'Network' in talk_titles[1]
+        assert 'Lunch' in talk_titles[0] and 'Lunch' in talk_titles[1]
 
     def test_safadao(self):
         talks = [
