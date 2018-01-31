@@ -11,14 +11,14 @@ class TestTrackSchedule:
         talk = Talk("qualquer bosta", 60)
         track.schedule_talk(talk)
 
-        assert len(track.get_scheduled_talks()) == 1
+        assert len(track.get_timeline()) == 3
 
     def test_talk_is_added_correctly(self):
         track = Track(datetime.now())
         talk = Talk("qualquer bosta denovo", 60)
         track.schedule_talk(talk)
 
-        scheduled = track.get_scheduled_talks()[0]
+        scheduled = track.get_timeline()[0]
 
         assert scheduled.title == talk.title
         assert scheduled.duration == talk.duration
@@ -34,7 +34,7 @@ class TestTrackSchedule:
 
         talk2 = Talk("bostona veia", 30)
         track.schedule_talk(talk2)
-        scheduled = track.get_scheduled_talks()[1]
+        scheduled = track.get_timeline()[1]
 
         assert scheduled.title == talk2.title
         assert scheduled.duration == talk2.duration
@@ -43,7 +43,6 @@ class TestTrackSchedule:
         assert scheduled.date.second == 0
         assert scheduled.date.microsecond == 0
 
-    @pytest.mark.oi
     def test_that_i_cant_add_a_talk_when_track_is_full(self):
         track = Track(datetime.now())
         talk = Talk("Really Large Talk", 3 * 60)
@@ -64,7 +63,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk on the lunch hour", 30)
 
         track.schedule_talk(talk2)
-        scheduled = track.get_scheduled_talks()[1]
+        scheduled = track.get_timeline()[2]
 
         assert scheduled.title == talk2.title
         assert scheduled.duration == talk2.duration
