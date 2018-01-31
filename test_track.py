@@ -20,7 +20,8 @@ class TestTrackSchedule:
 
         scheduled = track.get_scheduled_talks()[0]
 
-        assert scheduled.talk == talk
+        assert scheduled.title == talk.title
+        assert scheduled.duration == talk.duration
         assert scheduled.date.hour == 9
         assert scheduled.date.minute == 0
         assert scheduled.date.second == 0
@@ -35,7 +36,8 @@ class TestTrackSchedule:
         track.schedule_talk(talk2)
         scheduled = track.get_scheduled_talks()[1]
 
-        assert scheduled.talk == talk2
+        assert scheduled.title == talk2.title
+        assert scheduled.duration == talk2.duration
         assert scheduled.date.hour == 9
         assert scheduled.date.minute == 30
         assert scheduled.date.second == 0
@@ -51,7 +53,6 @@ class TestTrackSchedule:
 
         talk3 = Talk("bostona veia", 30)
 
-
         with pytest.raises(NoEnoughtSpace):
             track.schedule_talk(talk3)
 
@@ -65,7 +66,8 @@ class TestTrackSchedule:
         track.schedule_talk(talk2)
         scheduled = track.get_scheduled_talks()[1]
 
-        assert scheduled.talk == talk2
+        assert scheduled.title == talk2.title
+        assert scheduled.duration == talk2.duration
         assert scheduled.date.hour == 13
         assert scheduled.date.minute == 0
         assert scheduled.date.second == 0
@@ -91,7 +93,6 @@ class TestTrackSchedule:
 
         assert track.is_valid() is True
 
-    @pytest.mark.only
     def test_track_is_not_valid(self):
         track = Track(datetime.now())
         talk = Talk("first talk", 3 * 60)
