@@ -16,13 +16,13 @@ class TrackManagement:
         talks = self.talks
 
         while talks:
+            print(talks)
             talk = talks[0]
             talks = talks[1:]
             try:
                 if not track1.is_valid():
                     track1.schedule_talk(talk)
                 else:
-                    print('safada', talk)
                     track2.schedule_talk(talk)
             except NoEnoughtSpace:
                 talks = self.get_next_talks_iteration([track1,track2], talks, talk)
