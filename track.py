@@ -29,7 +29,7 @@ class Track:
     def schedule_talk(self, talk):
         if not self.__can_schedule(talk):
             raise NoEnoughtSpace
-        scheduled = ScheduledTalk(talk, self.next_date)
+        scheduled = ScheduledTalk(talk.title, talk.duration, self.next_date)
         self.scheduled_talks.append(scheduled)
         if scheduled.get_end_hour() == self.lunch_hour:
             self.__reeschedule_talk_after_lunch()
@@ -37,14 +37,14 @@ class Track:
             self.next_date = scheduled.get_end_hour()
 
     def schedule_lunch_hour(self):
-        scheduled = ScheduledTalk(Talk('Lunch', 60), self.lunch_hour)
+        scheduled = ScheduledTalk('Lunch', 60, self.lunch_hour)
         self.scheduled_talks.append(scheduled)
 
     def schedule_network_event(self):
         self.__is_a_valid_hour_for_network_event()
         self.next_date = (self.next_date +
                           timedelta(minutes=self.next_date.minute))
-        scheduled = ScheduledTalk(Talk('Network', 60), self.next_date)
+        scheduled = ScheduledTalk('Network', 60, self.next_date)
         self.scheduled_talks.append(scheduled)
 
     def __is_a_valid_hour_for_network_event(self):
