@@ -1,8 +1,58 @@
 import pytest
-from track import Track, NoEnoughtSpace
+from track import Track, NoEnoughtSpace, Scheduled
 from talk import Talk
 from datetime import datetime
 
+
+class TestSchedule:
+
+    def test_scheduled_has_correct_title(self):
+        scheduled = Scheduled("Gabizera", 60, datetime.now())
+
+        assert scheduled.get_title() == "Gabizera"
+
+    def test_scheduled_has_correct_duration(self):
+        scheduled = Scheduled("Tutucão safado", 60, datetime.now())
+
+        assert scheduled.duration == 60
+
+    def test_scheduled_has_correct_date(self):
+        date = datetime(2018, 1, 1, 9)
+        scheduled = Scheduled("Lulinha", 60, date)
+
+        assert scheduled.get_date() == date
+
+    def test_scheduled_has_correct_formatted_hour_for_morning_session(self):
+        date = datetime(2018, 1, 1, 9)
+        scheduled = Scheduled("Lulis", 60, date)
+
+        assert scheduled.get_hour() == '09:00AM'
+
+    def test_scheduled_has_correct_formatted_hour_for_afternoon_session(self):
+        date = datetime(2018, 1, 1, 13)
+        scheduled = Scheduled("Nako", 60, date)
+
+        assert scheduled.get_hour() == '01:00PM'
+
+    def test_scheduled_has_correct_end_hour(self):
+        date = datetime(2018, 1, 1, 13)
+        end_date = datetime(2018, 1, 1, 14)
+        scheduled = Scheduled("Popinha", 60, date)
+
+        assert scheduled.get_end_hour() == end_date
+
+    def test_scheduled_has_correct_formatted_end_hour(self):
+        date = datetime(2018, 1, 1, 13)
+        scheduled = Scheduled("Miauzin", 60, date)
+
+        assert scheduled.get_formatted_end_hour() == "02:00PM"
+
+    def test_scheduled_formatted_output(self):
+        date = datetime(2018, 1, 1, 9)
+
+        scheduled = Scheduled("Nina", 60, date)
+
+        assert scheduled.__str__() == '09:00AM Nina 60'
 
 class TestTrackSchedule:
 
