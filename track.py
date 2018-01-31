@@ -36,16 +36,14 @@ class Track:
         else:
             self.next_date = scheduled.get_end_hour()
 
-    def schedule_lunch_hour(self):
-        scheduled = ScheduledTalk('Lunch', 60, self.lunch_hour)
-        self.scheduled_talks.append(scheduled)
+    def __get_lunch_hour(self):
+        return ScheduledTalk('Lunch', 60, self.lunch_hour)
 
-    def schedule_network_event(self):
+    def __get_network_event(self):
         self.__is_a_valid_hour_for_network_event()
         self.next_date = (self.next_date +
                           timedelta(minutes=self.next_date.minute))
-        scheduled = ScheduledTalk('Network', 60, self.next_date)
-        self.scheduled_talks.append(scheduled)
+        return ScheduledTalk('Network', 60, self.next_date)
 
     def __is_a_valid_hour_for_network_event(self):
         if self.next_date <= self.first_hour_network:
@@ -53,21 +51,19 @@ class Track:
         elif self.next_date >= self.deadline_talk:
             self.next_date = self.deadline_talk
 
-    def get_scheduled_talks(self):
-        return self.scheduled_talks
+    def get_timeline(self):
+        scheduled_talks = self.scheduled_talks.copy()
+        scheduled_talks.append(self.__get_lunch_hour())
+        scheduled_talks.append(self.__get_network_event())
+        return sorted(scheduled_talks, key=lambda scheduled: scheduled.get_date())
 
     def __can_schedule(self, talk):
-        try:
-            talk_end = self.next_date + timedelta(minutes=talk.duration)
-            if talk_end > self.lunch_hour and self.next_date < self.lunch_hour:
-                return False
-            if talk_end > self.deadline_talk:
-                return False
-            return True
-        except:
-            import pdb; pdb.set_trace()
-            raise
-
+        talk_end = self.next_date + timedelta(minutes=talk.duration)
+        if talk_end > self.lunch_hour and self.next_date < self.lunch_hour:
+            return False
+        if talk_end > self.deadline_talk:
+            return False
+        return True
 
     def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
