@@ -16,7 +16,8 @@ class TestConference:
                  Talk("Couve", 3 * 60),
                  Talk("Frango", 4 * 60)
                 ]
-        tracks = TrackManagement(talks)
+        track_management = TrackManagement(talks)
+        tracks = track_management.generate_tracks_to_talks()
         conference = Conference(tracks)
 
         conference = conference.get_formatted_tracks_for_conference()
