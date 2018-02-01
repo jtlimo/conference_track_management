@@ -7,4 +7,9 @@ class Conference:
         self.tracks = tracks
 
     def get_formatted_tracks_for_conference(self):
-        pass
+        formatted_conference = ""
+        for i, track in enumerate(self.tracks):
+            for timeline in track.get_timeline():
+                 formatted_conference = "Track " + str(i + 1) + ":\n " + \
+                 str(timeline)
+        return formatted_conference
