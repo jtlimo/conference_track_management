@@ -54,6 +54,7 @@ class TestSchedule:
 
         assert scheduled.__str__() == '09:00AM Nina 60'
 
+
 class TestTrackSchedule:
 
     def test_when_a_talk_is_added_in_an_empty_track(self):
@@ -152,7 +153,7 @@ class TestTrackSchedule:
 
         assert track.is_valid() is False
 
-    def test_when_added_a_talk_that_exceed_the_lunch_time_it_raises_an_exception(self):
+    def test_added_a_talk_that_exceed_the_lunch_and_raises_exception(self):
         track = Track(datetime.now())
         talk = Talk("Big KeyNote", 170)
         track.schedule_talk(talk)

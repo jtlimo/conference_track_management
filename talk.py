@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+
 class Talk:
 
     def __init__(self, title, duration):
