@@ -22,13 +22,12 @@ class TestConference:
 
         conference = conference.get_formatted_tracks_for_conference()
 
-        assert conference is "Track 1:\n\
-                              09:00AM Xuxu 180\
-                              12:00PM Lunch 60\
-                              13:00PM Abacaxi 240\
-                              17:00PM Network 60\n\
-                              Track 2:\n\
-                              09:00AM Couve 180\
-                              12:00PM Lunch 60\
-                              13:00PM Frango 240\
-                              17:00PM Network 60"
+        assert conference == {'Track 1': ['09:00AM Xuxu 180',
+                                          '12:00PM Lunch 60',
+                                          '01:00PM Abacaxi 240',
+                                          '05:00PM Network 60'],
+                              'Track 2':
+                                         ['09:00AM Couve 180',
+                                          '12:00PM Lunch 60',
+                                          '01:00PM Frango 240',
+                                          '05:00PM Network 60']}
