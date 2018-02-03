@@ -26,7 +26,7 @@ class Scheduled:
 
     def get_end_hour(self):
         return self.get_date() + \
-                timedelta(minutes=self.duration)
+            timedelta(minutes=self.duration)
 
     def get_formatted_end_hour(self):
         return self.get_end_hour().strftime('%I:%M%p')
@@ -39,7 +39,7 @@ class NoEnoughtSpace(Exception):
 class Track:
     def __init__(self, date):
         self.next_date = date.replace(hour=9, minute=0, second=0,
-                                          microsecond=0)
+                                      microsecond=0)
         self.scheduled_talks = []
         self.deadline_talk = date.replace(hour=17, minute=0, second=0,
                                           microsecond=0)
@@ -82,11 +82,14 @@ class Track:
         scheduled_talks = self.scheduled_talks.copy()
         scheduled_talks.append(self.__get_lunch_hour())
         scheduled_talks.append(self.__get_network_event())
-        return sorted(scheduled_talks, key=lambda scheduled: scheduled.get_date())
+        return sorted(scheduled_talks, key=lambda scheduled:
+                      scheduled.get_date())
 
     def __can_schedule(self, talk):
-        talk_end = self.next_date + timedelta(minutes=talk.duration)
-        if talk_end > self.lunch_hour and self.next_date < self.lunch_hour:
+        talk_beginning_hour = self.next_date
+        talk_end = talk_beginning_hour + timedelta(minutes=talk.duration)
+        if talk_end > self.lunch_hour and \
+           talk_beginning_hour < self.lunch_hour:
             return False
         if talk_end > self.deadline_talk:
             return False
