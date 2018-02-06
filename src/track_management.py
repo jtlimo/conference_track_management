@@ -12,21 +12,23 @@ class TrackManagement:
 
     def generate_tracks_to_talks(self):
         talks = self.talks
+        self.tracks.append(Track(datetime.now()))
+        print('criei a track joça véia')
         while talks:
             talk = talks[0]
             talks = talks[1:]
-            self.tracks.append(Track(datetime.now()))
             try:
                 for track in self.tracks:
                     if not track.is_valid():
+                        print('trying to schedule the talk:', talk.title)
                         track.schedule_talk(talk)
                     else:
-                        print('creating a new track cause the track is valid')
+                        print('creating a new track cause the track is completed')
                         self.tracks.append(Track(datetime.now()))
             except NoEnoughtSpace:
                 print('initializing all tracks again, no enought space for this talk:', talk.title)
                 self.tracks.clear()
-                #self.tracks.append(Track(datetime.now()))
+                self.tracks.append(Track(datetime.now()))
                 random.shuffle(self.talks)
                 talks = self.talks
 
