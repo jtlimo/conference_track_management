@@ -8,24 +8,30 @@ class TrackManagement:
 
     def __init__(self, talks):
         self.talks = talks
+        self.tracks = []
 
     def generate_tracks_to_talks(self):
-        track1 = Track(datetime.now())
-        track2 = Track(datetime.now())
         talks = self.talks
-
         while talks:
             talk = talks[0]
             talks = talks[1:]
+            self.tracks.append(Track(datetime.now()))
             try:
-                if not track1.is_valid():
-                    track1.schedule_talk(talk)
-                else:
-                    track2.schedule_talk(talk)
+                for track in self.tracks:
+                    if not track.is_valid():
+                        track.schedule_talk(talk)
+                    else:
+                        print('creating a new track cause the track is valid')
+                        self.tracks.append(Track(datetime.now()))
             except NoEnoughtSpace:
-                track1 = Track(datetime.now())
-                track2 = Track(datetime.now())
+                print('initializing all tracks again, no enought space for this talk:', talk.title)
+                self.tracks.clear()
+                #self.tracks.append(Track(datetime.now()))
                 random.shuffle(self.talks)
                 talks = self.talks
 
-        return track1, track2
+        for tracks in self.tracks:
+            for index, track in enumerate(tracks.get_timeline()):
+                print(index, track)
+
+        return self.tracks

@@ -2,6 +2,7 @@ from src.track import Track
 from src.talk import Talk
 from src.track_management import TrackManagement
 from datetime import datetime
+import pytest
 
 
 class TestTrackManagement:
@@ -25,6 +26,7 @@ class TestTrackManagement:
         assert 'Lunch' in talk_titles[0]
         assert 'Lunch' in talk_titles[1]
 
+    @pytest.mark.only
     def test_when_need_to_create_a_new_track_with_unordered_talks(self):
         talk = Talk('Madokita', 4 * 60)
         talk2 = Talk('Tutucão', 3 * 60)
@@ -36,6 +38,7 @@ class TestTrackManagement:
 
         talk_titles = self.__get_title_talks(tracks)
 
+        assert 0
         assert talk.title in talk_titles[0] or talk.title in talk_titles[1]
         assert talk2.title in talk_titles[0] or talk2.title in talk_titles[1]
         assert talk3.title in talk_titles[0] or talk3.title in talk_titles[1]
