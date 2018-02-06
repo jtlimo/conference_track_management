@@ -92,7 +92,9 @@ class Track:
             return False
         if talk_end > self.deadline_talk:
             return False
+        print('I can schedule the talk:', talk.title)
         return True
+
 
     def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
