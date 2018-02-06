@@ -1,9 +1,9 @@
-import pytest
-from track import Track
-from talk import Talk
-from track_management import TrackManagement
-from conference import Conference
+from src.track import Track
+from src.talk import Talk
+from src.track_management import TrackManagement
+from src.conference import Conference
 from datetime import datetime
+
 
 
 class TestConference:

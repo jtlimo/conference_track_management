@@ -1,9 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from track import Track, NoEnoughtSpace
-from datetime import datetime, timedelta
+from src.track import Track, NoEnoughtSpace
+from datetime import datetime
 import random
-
 
 class TrackManagement:
 

@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
-from talk import Talk
-from copy import copy
+from src.talk import Talk
 
 
 class Scheduled:

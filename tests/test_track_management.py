@@ -1,7 +1,6 @@
-import pytest
-from track import Track
-from talk import Talk
-from track_management import TrackManagement
+from src.track import Track
+from src.talk import Talk
+from src.track_management import TrackManagement
 from datetime import datetime
 
 

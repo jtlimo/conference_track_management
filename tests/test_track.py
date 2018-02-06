@@ -1,7 +1,7 @@
-import pytest
-from track import Track, NoEnoughtSpace, Scheduled
-from talk import Talk
+from src.track import Track, NoEnoughtSpace, Scheduled
+from src.talk import Talk
 from datetime import datetime
+import pytest
 
 
 class TestSchedule:
