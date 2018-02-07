@@ -53,8 +53,9 @@ class TestTrackManagement:
 
         for track in tracks:
             for talk in track.get_timeline():
-                if talk.title == 'Network':
-                    assert talk.date.hour <= 17 and talk.date.hour >= 16
+                if talk.title == 'Network' and talk.date.hour == 17:
+                    assert talk.date.minute == 0
+                    assert talk.date.second == 0
 
     def test_when_need_to_create_a_new_track_with_unordered_talks(self):
         talk = Talk('Madokita', 4 * 60)
