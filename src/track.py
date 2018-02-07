@@ -67,8 +67,6 @@ class Track:
 
     def __get_network_event(self):
         self.__is_a_valid_hour_for_network_event()
-        self.next_date = (self.next_date +
-                          timedelta(minutes=self.next_date.minute))
         return Scheduled('Network', 60, self.next_date)
 
     def __is_a_valid_hour_for_network_event(self):
