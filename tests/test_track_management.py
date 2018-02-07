@@ -38,7 +38,6 @@ class TestTrackManagement:
 
         talk_titles = self.__get_title_talks(tracks)
 
-        assert 0
         assert talk.title in talk_titles[0] or talk.title in talk_titles[1]
         assert talk2.title in talk_titles[0] or talk2.title in talk_titles[1]
         assert talk3.title in talk_titles[0] or talk3.title in talk_titles[1]

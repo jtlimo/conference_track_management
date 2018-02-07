@@ -49,7 +49,7 @@ class Track:
         self.first_hour_network = date.replace(hour=16, minute=0, second=0,
                                                microsecond=0)
 
-    def is_valid(self):
+    def is_full(self):
         return self.next_date >= self.first_hour_network
 
     def schedule_talk(self, talk):
@@ -86,15 +86,13 @@ class Track:
 
     def __can_schedule(self, talk):
         talk_beginning_hour = self.next_date
-        talk_end = talk_beginning_hour + timedelta(minutes=talk.duration)
-        if talk_end > self.lunch_hour and \
+        talk_end_hour = talk_beginning_hour + timedelta(minutes=talk.duration)
+        if talk_end_hour > self.lunch_hour and \
            talk_beginning_hour < self.lunch_hour:
             return False
-        if talk_end > self.deadline_talk:
+        if talk_end_hour > self.deadline_talk:
             return False
-        print('I can schedule the talk:', talk.title)
         return True
-
 
     def __reeschedule_talk_after_lunch(self):
         self.next_date = self.next_date.replace(
