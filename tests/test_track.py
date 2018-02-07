@@ -131,7 +131,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk 2", 4 * 60)
         track.schedule_talk(talk2)
 
-        assert track.is_valid() is True
+        assert track.is_full() is True
 
     def test_track_is_completed_correctly_when_network_starts_at_16h(self):
         track = Track(datetime.now())
@@ -141,7 +141,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk 2", 3 * 60)
         track.schedule_talk(talk2)
 
-        assert track.is_valid() is True
+        assert track.is_full() is True
 
     def test_track_is_not_valid(self):
         track = Track(datetime.now())
@@ -151,7 +151,7 @@ class TestTrackSchedule:
         talk2 = Talk("Talk 2", 2 * 60)
         track.schedule_talk(talk2)
 
-        assert track.is_valid() is False
+        assert track.is_full() is False
 
     def test_added_a_talk_that_exceed_the_lunch_and_raises_exception(self):
         track = Track(datetime.now())
