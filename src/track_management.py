@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from itertools import repeat
 from src.track import Track, NoEnoughtSpace
 from datetime import datetime
+from math import factorial
 import random
 
 
@@ -15,7 +17,8 @@ class TrackManagement:
         talks = self.talks
         self.tracks.append(Track(datetime.now()))
         tracks_full = []
-        while talks:
+        for _ in repeat(talks, factorial(len(talks))):
+            if not talks: return tracks_full + self.tracks
             talk = talks[0]
             talks = talks[1:]
             try:
@@ -27,10 +30,14 @@ class TrackManagement:
                         self.tracks.append(Track(datetime.now()))
                         self.tracks = self.tracks[1:]
             except NoEnoughtSpace:
-                self.tracks.clear()
-                tracks_full.clear()
-                self.tracks.append(Track(datetime.now()))
-                random.shuffle(self.talks)
-                talks = self.talks
+                self.__restart_tracks(tracks_full)
 
         return tracks_full + self.tracks
+
+
+    def __restart_tracks(self, tracks_full):
+        self.tracks.clear()
+        tracks_full.clear()
+        self.tracks.append(Track(datetime.now()))
+        random.shuffle(self.talks)
+        talks = self.talks
