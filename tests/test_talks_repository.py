@@ -10,5 +10,5 @@ class TestTalksRepository:
 
         talk_inserted = repo.insert(talk)
 
-        assert inserted_talk.title == talk.title
-        assert inserted_talk.duration == talk.duration
+        assert talk_inserted[0].title == talk.title
+        assert talk_inserted[0].duration == talk.duration
