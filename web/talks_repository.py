@@ -11,3 +11,6 @@ class TalksRepository:
 
     def get(self, talk_id):
         return self.talks[talk_id]
+
+    def delete(self, talk_id):
+        del self.talks[talk_id]
