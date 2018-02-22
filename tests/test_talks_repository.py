@@ -1,5 +1,5 @@
 import pytest
-from web.talks_repository import TalksRepository
+from src.web.talks_repository import TalksRepository, TalkNotFoundException
 from src.talk import Talk
 
 
@@ -29,5 +29,5 @@ class TestTalksRepository:
         id_talk = repo.insert(talk)
         repo.delete(id_talk)
 
-        with pytest.raises(IndexError):
+        with pytest.raises(TalkNotFoundException):
             repo.get(id_talk)
