@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from src.web.talks_repository import TalksRepository
 from src.talk import Talk
 
@@ -16,3 +16,10 @@ def talks():
 
     return jsonify({'id': talk_id, 'title': talk.title, 'duration':
                     talk.duration})
+
+
+@app.route('/talks/<int:talk_id>', methods=['DELETE'])
+def delete_talk(talk_id):
+    app.talks_repository.delete(talk_id)
+
+    return Response(status=204)
