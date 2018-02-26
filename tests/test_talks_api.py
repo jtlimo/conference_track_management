@@ -23,6 +23,13 @@ class TestTalksAPI:
 
         assert response.status_code == 204
 
+    def test_when_delete_an_inexistent_talk(self):
+        self.__setup()
+        response = self.__send_delete('/talks/0')
+
+        assert response.status_code == 404
+
+
     def __send_post(self, url, json_dict):
         return self.app.post(url, data=json_dict)
 

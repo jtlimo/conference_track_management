@@ -18,4 +18,7 @@ class TalksRepository:
             raise TalkNotFoundException
 
     def delete(self, talk_id):
-        del self.talks[talk_id]
+        try:
+            del self.talks[talk_id]
+        except IndexError:
+            raise TalkNotFoundException
