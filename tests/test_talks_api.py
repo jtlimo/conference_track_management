@@ -23,9 +23,10 @@ class TestTalksAPI:
 
         assert response.status_code == 204
 
+    @pytest.mark.only
     def test_when_delete_an_inexistent_talk(self):
         self.__setup()
-        response = self.__send_delete('/talks/0')
+        response = self.__send_delete('/talks/1')
 
         assert response.status_code == 404
 
