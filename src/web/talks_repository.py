@@ -12,8 +12,14 @@ class TalksRepository:
         return talk_id
 
     def get(self, talk_id):
+        print('into get', talk_id)
         try:
-            return self.talks[talk_id]
+            if type(talk_id) is int:
+                print('I have id')
+                return self.talks[talk_id]
+            else:
+                print('I dont have id')
+                return self.talks
         except IndexError:
             raise TalkNotFoundException
 

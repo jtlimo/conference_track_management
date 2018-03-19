@@ -23,19 +23,31 @@ class TestTalksAPI:
 
         assert response.status_code == 204
 
-    @pytest.mark.only
     def test_when_delete_an_inexistent_talk(self):
         self.__setup()
         response = self.__send_delete('/talks/1')
 
         assert response.status_code == 404
+    
+    @pytest.mark.wip
+    def test_when_insert_multiple_talks_then_return_a_list_of_talks(self):
+        self.__setup()
+        self.__send_post('/talks', dict(title='Namika', duration=30))
+        self.__send_post('/talks', dict(title='Luna',duration=30))
+        self.__send_post('/talks', dict(title='Pink',duration=30))
+        response = self.__send_get('/talks') 
+        data = json.loads(response.data)
 
+        assert 0
 
     def __send_post(self, url, json_dict):
         return self.app.post(url, data=json_dict)
 
     def __send_delete(self, url):
         return self.app.delete(url)
+
+    def __send_get(self,url):
+        return self.app.get(url)
 
     def __setup(self):
         src.web.app.testing = True

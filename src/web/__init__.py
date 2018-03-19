@@ -12,11 +12,16 @@ def talks():
     duration = request.form.get('duration', type=int)
     app.talk = Talk(title, duration)
     talk_id = app.talks_repository.insert(app.talk)
+    print('id', talk_id)
     talk = app.talks_repository.get(talk_id)
-
     return jsonify({'id': talk_id, 'title': talk.title, 'duration':
                     talk.duration})
 
+@app.route('/talks', methods=['GET'])
+def list_talks():
+    print('hi')
+    talks = app.talks_repository.get()
+    return jsonify({'talks': talks})
 
 @app.route('/talks/<int:talk_id>', methods=['DELETE'])
 def delete_talk(talk_id):
