@@ -7,7 +7,6 @@ from flask import json
 class TestTalksAPI:
 
     def test_when_insert_a_talk(self):
-        self.__setup()
         response = self.__send_post('/talks', dict(title='Namika',
                                                    duration=30))
         data = json.loads(response.data)
@@ -17,28 +16,36 @@ class TestTalksAPI:
         assert data['duration'] == 30
 
     def test_when_delete_a_talk_by_id(self):
-        self.__setup()
         self.__send_post('/talks', dict(title='Namika', duration=30))
         response = self.__send_delete('/talks/0')
 
         assert response.status_code == 204
 
     def test_when_delete_an_inexistent_talk(self):
-        self.__setup()
         response = self.__send_delete('/talks/1')
 
         assert response.status_code == 404
     
     @pytest.mark.wip
     def test_when_insert_multiple_talks_then_return_a_list_of_talks(self):
-        self.__setup()
         self.__send_post('/talks', dict(title='Namika', duration=30))
         self.__send_post('/talks', dict(title='Luna',duration=30))
         self.__send_post('/talks', dict(title='Pink',duration=30))
         response = self.__send_get('/talks') 
         data = json.loads(response.data)
+        
+        assert data[0]['title'] == 'Namika'
+        assert data[0]['duration'] == 30
+        assert data[0]['title'] == 'Luna'
+        assert data[0]['duration'] == 30
+        assert data[0]['title'] == 'Pink'
+        assert data[0]['duration'] == 30
 
-        assert 0
+    @pytest.fixture(autouse=True)
+    def test_configuration(self):
+        self.__setup()
+        yield
+        self.__teardown()
 
     def __send_post(self, url, json_dict):
         return self.app.post(url, data=json_dict)
@@ -52,3 +59,6 @@ class TestTalksAPI:
     def __setup(self):
         src.web.app.testing = True
         self.app = src.web.app.test_client()
+
+    def __teardown(self):
+        print('clean the base')

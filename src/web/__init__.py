@@ -1,3 +1,4 @@
+import json
 from flask import Flask, jsonify, request, Response, render_template
 from src.web.talks_repository import TalksRepository, TalkNotFoundException
 from src.talk import Talk
@@ -12,16 +13,17 @@ def talks():
     duration = request.form.get('duration', type=int)
     app.talk = Talk(title, duration)
     talk_id = app.talks_repository.insert(app.talk)
-    print('id', talk_id)
     talk = app.talks_repository.get(talk_id)
     return jsonify({'id': talk_id, 'title': talk.title, 'duration':
                     talk.duration})
 
 @app.route('/talks', methods=['GET'])
 def list_talks():
-    print('hi')
+    talks_json = []
     talks = app.talks_repository.get()
-    return jsonify({'talks': talks})
+    for talk in talks:
+      talks_json.append({'title': talk.title, 'duration': talk.duration})
+    return json.dumps(talks_json)
 
 @app.route('/talks/<int:talk_id>', methods=['DELETE'])
 def delete_talk(talk_id):
