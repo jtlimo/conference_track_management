@@ -21,8 +21,8 @@ def talks():
 def list_talks():
     talks_json = []
     talks = app.talks_repository.get()
-    for talk in talks:
-      talks_json.append({'title': talk.title, 'duration': talk.duration})
+    for index, talk in enumerate(talks):
+        talks_json.append({'id': index, 'title': talk.title, 'duration': talk.duration})
     return json.dumps(talks_json)
 
 @app.route('/talks/<int:talk_id>', methods=['DELETE'])

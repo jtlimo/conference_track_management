@@ -26,20 +26,22 @@ class TestTalksAPI:
 
         assert response.status_code == 404
     
-    @pytest.mark.wip
     def test_when_insert_multiple_talks_then_return_a_list_of_talks(self):
         self.__send_post('/talks', dict(title='Namika', duration=30))
         self.__send_post('/talks', dict(title='Luna',duration=30))
         self.__send_post('/talks', dict(title='Pink',duration=30))
         response = self.__send_get('/talks') 
         data = json.loads(response.data)
-        
+
+        assert data[0]['id'] == 0
         assert data[0]['title'] == 'Namika'
         assert data[0]['duration'] == 30
-        assert data[0]['title'] == 'Luna'
-        assert data[0]['duration'] == 30
-        assert data[0]['title'] == 'Pink'
-        assert data[0]['duration'] == 30
+        assert data[1]['id'] == 1
+        assert data[1]['title'] == 'Luna'
+        assert data[1]['duration'] == 30
+        assert data[2]['id'] == 2
+        assert data[2]['title'] == 'Pink'
+        assert data[2]['duration'] == 30
 
     @pytest.fixture(autouse=True)
     def test_configuration(self):
@@ -61,4 +63,10 @@ class TestTalksAPI:
         self.app = src.web.app.test_client()
 
     def __teardown(self):
-        print('clean the base')
+        self.__clear_repository()
+
+    def __clear_repository(self):
+         response = self.__send_get('/talks')
+         talks = json.loads(response.data)
+         for index, talk in enumerate(talks):
+             self.__send_delete('/talks/{}'.format(index))
