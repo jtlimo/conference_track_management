@@ -57,6 +57,7 @@ class TestTrackManagement:
                     assert talk.date.minute == 0
                     assert talk.date.second == 0
 
+    @pytest.mark.only
     def test_when_need_to_create_a_new_track_with_unordered_talks(self):
         talk = Talk('Madokita', 4 * 60)
         talk2 = Talk('Tutucão', 3 * 60)

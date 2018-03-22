@@ -15,7 +15,6 @@ class TrackManagement:
         self.tracks_full = []
 
     def generate_tracks_to_talks(self):
-        #talks = self.talks
         talks_combinations = self.__get_talks_combinations(self.talks)
         self.tracks.append(Track(datetime.now()))
         
@@ -50,15 +49,17 @@ class TrackManagement:
         return talks
         
     def __get_talks_combinations(self, talks, talks_original_order = [], talks_combinations=[]):
+        print([talk.title for talk in talks]) 
         if not talks_original_order:
-          talks_original_order = talks.copy()
+            talks_original_order = talks.copy()
         for index, talk in enumerate(talks):
-          i = index + 1
-          if i > len(talks) - 1:
-              if talks == talks_original_order:
-                return talks_combinations
-              self.__get_talks_combinations(talks, talks_original_order)
-          else:
-              talks_combinations.append(talks.copy())
-              talks[index] = talks[index + 1]
-              talks[index + 1] = talk
+            i = index + 1
+            if i > len(talks) - 1:
+                if talks == talks_original_order:
+                    return talks_combinations
+                self.__get_talks_combinations(talks, talks_original_order)
+            else:
+                talks_combinations.append(talks.copy())
+                talks[index] = talks[index + 1]
+                talks[index + 1] = talk
+                print([talk.title for talk in talks]) 
