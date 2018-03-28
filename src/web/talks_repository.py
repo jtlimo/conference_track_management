@@ -1,12 +1,16 @@
+from src.web.models.talk import Talks
+
 class TalkNotFoundException(Exception):
     pass
 
-
 class TalksRepository:
     def __init__(self):
-        self.talks = []
+        talk_repo = Talks()
+        talk_repo.create_db()
 
     def insert(self, talk):
+        talk_repo.add(talk.title, talk.duration)
+        talk_repo.commit()
         self.talks.append(talk)
         talk_id = len(self.talks) - 1
         return talk_id
