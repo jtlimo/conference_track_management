@@ -1,19 +1,26 @@
 import pytest
 import src.web
+from unittest.mock import patch
 from src.talk import Talk
 from flask import json
 
 
 class TestTalksAPI:
 
-    def test_when_insert_a_talk(self):
-        response = self.__send_post('/talks', dict(title='Namika',
-                                                   duration=30))
+    @pytest.mark.only
+    @patch('src.web.TalksRepository.insert', return_value= 0)
+    @patch('src.web.TalksRepository.get', return_value=Talk('Namika', 30))
+    def test_when_insert_a_talk(self, mock_repo_get, mock_repo_insert):
+        response = self.__send_post('/talks', dict(title='Namika', duration=30))
+
+        mock_repo_get.return_value = [Talk('Namika', 30)]
         data = json.loads(response.data)
 
         assert data['id'] == 0
         assert data['title'] == 'Namika'
         assert data['duration'] == 30
+       
+        assert len(mock_repo_get()) == 1
 
     def test_when_delete_a_talk_by_id(self):
         self.__send_post('/talks', dict(title='Namika', duration=30))
