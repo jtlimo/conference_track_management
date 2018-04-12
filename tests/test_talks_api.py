@@ -7,7 +7,6 @@ from flask import json
 
 class TestTalksAPI:
 
-    @pytest.mark.only
     @patch('src.web.TalksRepository.insert', return_value= 0)
     @patch('src.web.TalksRepository.get', return_value=Talk('Namika', 30))
     def test_when_insert_a_talk(self, mock_repo_get, mock_repo_insert):
@@ -22,11 +21,12 @@ class TestTalksAPI:
        
         assert len(mock_repo_get()) == 1
 
-    def test_when_delete_a_talk_by_id(self):
-        self.__send_post('/talks', dict(title='Namika', duration=30))
+    @patch('src.web.TalksRepository.delete', return_value=[])
+    def test_when_delete_a_talk_by_id(self, mock_delete):
         response = self.__send_delete('/talks/0')
-
+        
         assert response.status_code == 204
+        assert len(mock_delete()) == 0
 
     def test_when_delete_an_inexistent_talk(self):
         response = self.__send_delete('/talks/1')
