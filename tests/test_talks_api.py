@@ -36,10 +36,10 @@ class TestTalksAPI:
         
         assert response.status_code == 404
     
-    def test_when_insert_multiple_talks_then_return_a_list_of_talks(self):
-        self.__send_post('/talks', dict(title='Namika', duration=30))
-        self.__send_post('/talks', dict(title='Luna',duration=30))
-        self.__send_post('/talks', dict(title='Pink',duration=30))
+    @patch('src.web.TalksRepository.get', return_value=[Talk('Namika', 30),
+                                                         Talk('Luna', 30),
+                                                         Talk('Pink', 30)])
+    def test_when_insert_multiple_talks_then_return_a_list_of_talks(self, mock_get):
         response = self.__send_get('/talks') 
         data = json.loads(response.data)
 
@@ -53,11 +53,12 @@ class TestTalksAPI:
         assert data[2]['title'] == 'Pink'
         assert data[2]['duration'] == 30
 
+        assert len(mock_get()) == 3
+
     @pytest.fixture(autouse=True)
     def test_configuration(self):
         self.__setup()
         yield
-        self.__teardown()
 
     def __send_post(self, url, json_dict):
         return self.app.post(url, data=json_dict)
@@ -71,12 +72,3 @@ class TestTalksAPI:
     def __setup(self):
         src.web.app.testing = True
         self.app = src.web.app.test_client()
-
-    def __teardown(self):
-        self.__clear_repository()
-
-    def __clear_repository(self):
-         response = self.__send_get('/talks')
-         talks = json.loads(response.data)
-         for index, talk in enumerate(talks):
-             self.__send_delete('/talks/{}'.format(index))
