@@ -3,7 +3,7 @@ import src.web
 from unittest.mock import patch
 from src.talk import Talk
 from flask import json
-
+from src.web.talks_repository import TalkNotFoundException
 
 class TestTalksAPI:
 
@@ -28,9 +28,12 @@ class TestTalksAPI:
         assert response.status_code == 204
         assert len(mock_delete()) == 0
 
-    def test_when_delete_an_inexistent_talk(self):
-        response = self.__send_delete('/talks/1')
-
+    @patch('src.web.TalksRepository.delete', side_effect=TalkNotFoundException)
+    def test_when_delete_an_inexistent_talk(self, mock_delete):
+        response = self.__send_delete('/talks/0')
+        with pytest.raises(TalkNotFoundException):
+            mock_delete()
+        
         assert response.status_code == 404
     
     def test_when_insert_multiple_talks_then_return_a_list_of_talks(self):
